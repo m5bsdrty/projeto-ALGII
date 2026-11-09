@@ -3,8 +3,8 @@
 #include "sgad.h"
 void main(){
     int esc = 0;
-    aluno* listaAlunos = NULL;
-    int tamanhoListaAlunos = 0;
+    aluno primeiroAluno;
+    primeiroAluno.ptrProximoAluno = NULL;
     disciplina* listaDisciplinas = NULL;
     int tamanhoListaDisciplinas = 0;
 
@@ -18,20 +18,22 @@ void main(){
             case 0:break;
             case 1:
                 do{
-                    aluno novoAluno;
-
+                    aluno* novoAluno = calloc(1, sizeof(aluno));
+                    printf("Digite o ra do aluno");
+                    scanf("%d", &ra);
+                    novoAluno->ra = ra;
+                    /*
                     printf("digite a nota dele no 1 semestre:");
                     scanf("%d", &novoAluno.disciplinaNotas[0]);
 
                     printf("digite a nota dele no 2 semestre:");
                     scanf("%d", &novoAluno.disciplinaNotas[1]);
+                    substituir por submenu onde podem ser adicionados novos alunos
+                    */
 
-                    if (inserirAluno(&listaAlunos, &tamanhoListaAlunos, novoAluno) == 0) {
-                    printf("Aluno inserido com sucesso! Total de alunos: %d\n", tamanhoListaAlunos);
-                    } 
-                    else {
-                        printf("Erro ao alocar memoria.\n");
-                    }
+                    inserirAluno(primeiroAluno, novoAluno);
+                    printf("Aluno inserido com sucesso!");
+
                     printf("Adicionar mais um aluno 0 Sim 1 Nao");
                 }while(esc != 1);
                 break;
@@ -48,13 +50,11 @@ void main(){
                     adicionarPrerequisitos(&listaDisciplinas[tamanhoListaDisciplinas-1],ra);
                 }while(ra != -1);
 
-                
-
                 break;
             case 3:
                 printf("digite o ra do aluno:");
                 scanf("%d", &ra);
-                boletimIndividual(listaAlunos[ra], ra);
+                boletimIndividual(primeiroAluno, ra);
                 break;
             case 4:
                 gerarListaAlunos(listaAlunos,tamanhoListaAlunos);

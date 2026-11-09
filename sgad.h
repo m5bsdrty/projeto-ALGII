@@ -4,9 +4,9 @@
 #include "disciplina.h"
 #include "dependencias.h"
 
-int inserirAluno(aluno** listaAlunos, int* tamanhoListaAlunos, aluno novoAluno);
-void mostrarAlunos(aluno listaAlunos);
-void boletimIndividual(aluno aluno, int ra);
+void inserirAluno(aluno primeiroAluno, aluno* novoAluno);
+int imprimirAluno(aluno a1, int ra, FILE *fptr);
+int boletimIndividual(aluno primeiroAluno, int ra);
 void gerarListaAlunos(aluno listaAlunos[], int tamanhoListaAlunos);
 
 int inserirDisciplina(disciplina** listaDisciplina, int* tamanhoListaDisciplina, disciplina novaDisciplina);
