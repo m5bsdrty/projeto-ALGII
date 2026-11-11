@@ -14,7 +14,7 @@ typedef struct aluno{
 
     int ra;
 } aluno;
-
+void inserirAluno(aluno* primeiroAluno, aluno* novoAluno);
 double calculoMedia(aluno aluno, int codigoDisciplina);
 int determinarAprovacao(aluno aluno, int codigoDisciplina);
 #endif

@@ -14,7 +14,14 @@ typedef struct aluno{
     int ra;
 } aluno;
 
-
+void inserirAluno(aluno* primeiroAluno, aluno* novoAluno) {
+    aluno* x = primeiroAluno;
+    while(x->ptrProximoAluno){
+        x = x->ptrProximoAluno;
+    }
+    x->ptrProximoAluno = novoAluno;
+    novoAluno->ptrAnteriorAluno = x;
+}
 double calculoMedia(aluno a1, int codigoDisciplina){
     disciplinaCursada* ptrDisciplina = a1.ptrPrimeiraDisciplina;
     int x = ptrDisciplina->codigo;

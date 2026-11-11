@@ -1,5 +1,0 @@
-RA:0
-Nota do 1 semestre:0
-Nota do 2 semestre:1
-Media:0.000000
-situacao:reprovado

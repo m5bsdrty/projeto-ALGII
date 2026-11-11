@@ -1,18 +1,37 @@
 #include "dependencias.h"
 
-
+typedef struct codigoPrerequisitos{
+    int codigo;
+    struct codigoPrerequisitos* ptrAnteriorCodigoPrerequisitos;
+    struct codigoPrerequisitos* ptrProximoCodigoPrerequisitos;
+} codigoPrerequisitos;
 typedef struct disciplina{
     int codigo;
-    int* codigoPrerequisitos;
-    int numCodigoPrerequisitos;
+    codigoPrerequisitos* primeiroCodigoPrerequisitos;
+    struct disciplina* ptrAnteriorDisciplina;
+    struct disciplina* ptrProximaDisciplina;
 } disciplina;
-int adicionarPrerequisitos(disciplina* disciplina, int codigoPrerequisitos){
-    int* x = realloc(disciplina->codigoPrerequisitos, sizeof(disciplina->codigoPrerequisitos)+sizeof(int));
-    if(x == NULL)
-        return -1;
-    else{
-        disciplina->codigoPrerequisitos = x;
-        disciplina->numCodigoPrerequisitos++;
-        return 0;
+int inserirDisciplina(disciplina* primeiraDisciplina, disciplina* novaDisciplina) {
+    disciplina* x = primeiraDisciplina;
+    while(x->ptrProximaDisciplina){
+        x = x->ptrProximaDisciplina;
     }
+    x->ptrProximaDisciplina = novaDisciplina;
+    novaDisciplina->ptrAnteriorDisciplina = x;
+    return 0;
+}
+int adicionarPrerequisitos(disciplina* disciplina, int codigoPrerequisito){
+    codigoPrerequisitos* x;
+    x = disciplina->primeiroCodigoPrerequisitos;
+    if(x->codigo == -1){
+        x->codigo = codigoPrerequisito;
+    }
+    else{
+            while(!x->ptrProximoCodigoPrerequisitos)
+                x = x->ptrProximoCodigoPrerequisitos;
+            x->ptrProximoCodigoPrerequisitos = malloc(sizeof(codigoPrerequisitos));
+            x = x->ptrProximoCodigoPrerequisitos;
+            x->codigo = codigoPrerequisito;
+    }
+
 }

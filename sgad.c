@@ -2,22 +2,7 @@
 #include "aluno.h"
 #include "disciplina.h"
 
-void inserirAluno(aluno primeiroAluno, aluno* novoAluno) {
-    if(primeiroAluno.ptrProximoAluno != NULL){
-        aluno* x = primeiroAluno.ptrProximoAluno;
-        do{
-            x = x->ptrProximoAluno;
-        }while(x->ptrProximoAluno != NULL);
-        x->ptrProximoAluno = novoAluno;
-        novoAluno->ptrAnteriorAluno = x;
 
-    }
-    else{
-        primeiroAluno.ptrProximoAluno = novoAluno;
-        novoAluno->ptrAnteriorAluno = &primeiroAluno;
-    }
-
-}
 int imprimirAluno(aluno a1, int ra, FILE *fptr){
     fprintf(fptr,"RA:%d\n",ra);
      /* for(int i = 0;i < a1.numDisciplinasCursadas;i++){
@@ -44,68 +29,64 @@ int imprimirAluno(aluno a1, int ra, FILE *fptr){
         //TO DO:adicionar disciplinas
 
 }
-int boletimIndividual(aluno primeiroAluno, int ra){
+int boletimIndividual(aluno* primeiroAluno, int ra){
     FILE *fptr;
-    fptr = fopen("boletimIndividual.txt", "w");
+    fptr = fopen("binarios/boletimIndividual.txt", "w");
     if (fptr == NULL)
         return 1;
 
-    aluno* x = NULL;
+    aluno* x;
     
-    x = &primeiroAluno;
-    if(primeiroAluno.ra != ra){
+    x = primeiroAluno;
+    if(primeiroAluno->ra != ra){
         while(x->ra != ra && x->ptrProximoAluno != NULL)//adicionar condicao caso o aluno nao exista
             x = x->ptrProximoAluno;
         if(x->ptrProximoAluno == NULL && x->ra != ra)
             return -1;
     }
-    imprimirAluno(*x, x->ra, *fptr);
+    imprimirAluno(*x, x->ra, fptr);
     fclose(fptr);
     return 0;
 }
-void gerarListaAlunos(aluno listaAlunos[], int tamanhoListaAlunos){
+void gerarListaAlunos(aluno* primeiroAluno){
     FILE *fptr;
-    fptr = fopen("listaAlunos.txt", "w");
+    fptr = fopen("binarios/listaAlunos.txt", "w");
         if (fptr == NULL) {
         return;
     }
-    
-    for(int i = 0; i < tamanhoListaAlunos;i++){
-        imprimirAluno(listaAlunos[i], i, *fptr);
+    aluno* x = primeiroAluno;
+    do{
+        imprimirAluno(*x, x->ra, fptr);
         fprintf(fptr,"\n\n");
-    }
+        //fato curioso caso alguem esteja lendo isso: eu esqueci de adicionar x = x->ptrProximoAluno, o que resultou no meu computador travar enquanto tentava escrever um arquivo de +100mb.
+    }while(x->ptrProximoAluno != NULL, x = x->ptrProximoAluno);
 
     fclose(fptr);
 }
 
-int inserirDisciplina(disciplina** listaDisciplinas, int* tamanhoListaDisciplinas, disciplina novaDisciplina) {
-    disciplina* temp = realloc(*listaDisciplinas, sizeof(disciplina) * (*tamanhoListaDisciplinas + 1));
-    
-    if (temp == NULL) {
-        return -1; 
-    }
-    *listaDisciplinas = temp;
-    (*listaDisciplinas)[*tamanhoListaDisciplinas] = novaDisciplina;
-    
-    (*tamanhoListaDisciplinas)++;
 
-    return 0;
-}
-void gerarListaDisciplinas(disciplina listaDisciplinas[], int tamanhoListaDisciplinas){
+void gerarListaDisciplinas(disciplina* primeiraDisciplina){
     FILE *fptr;
-    fptr = fopen("listaDisciplinas.txt", "w");
+    fptr = fopen("binarios/listaDisciplinas.txt", "w");
         if (fptr == NULL) {
         return;
     }
-    
-    for(int i = 0; i < tamanhoListaDisciplinas;i++){
+    if(!primeiraDisciplina)
+        return;
+    disciplina* x = primeiraDisciplina->ptrProximaDisciplina;
+    do{
+        x = x->ptrProximaDisciplina;
+        fprintf(fptr,"Codigo da disciplina:%d\n",x->codigo);
+
+    } while(!x->ptrProximaDisciplina);
+    /*for(int i = 0; i < tamanhoListaDisciplinas;i++){
         fprintf(fptr,"Codigo da disciplina:%d\n",i);
         fprintf(fptr,"Disciplinas pre-requisito:\n");
         for(int j = 0; j < listaDisciplinas[i].numCodigoPrerequisitos;j++){
             fprintf(fptr,"%d,",listaDisciplinas[i].codigoPrerequisitos[j]);
         }
         fprintf(fptr,"\n\n");
-    }
+    }*/
 
     fclose(fptr);
 }
