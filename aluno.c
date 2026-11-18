@@ -1,18 +1,18 @@
 #include "dependencias.h"
-typedef struct disciplinaCursada{
-    int codigo;
-    double nota[2];
-    struct disciplinaCursada* ptrProximaDisciplina;
-    struct disciplinaCursada* ptrAnteriorDisciplina;
-}  disciplinaCursada;
+#include "disciplinaCursada.h"
 typedef struct aluno{
-    disciplinaCursada disciplinasCursadas;
     disciplinaCursada* ptrPrimeiraDisciplina;
+    int primeiraDisciplinaCursadaCriada;
     struct aluno* ptrAnteriorAluno;
     struct aluno* ptrProximoAluno;
 
     int ra;
 } aluno;
+
+aluno* buscarAlunoPorRa(aluno* x, int ra){
+    while(x && x->ra != ra) x = x->ptrProximoAluno;
+    return x;
+}
 
 void inserirAluno(aluno* primeiroAluno, aluno* novoAluno) {
     aluno* x = primeiroAluno;
@@ -21,7 +21,30 @@ void inserirAluno(aluno* primeiroAluno, aluno* novoAluno) {
     }
     x->ptrProximoAluno = novoAluno;
     novoAluno->ptrAnteriorAluno = x;
+
+    novoAluno->primeiraDisciplinaCursadaCriada = 0;
 }
+
+void deletarAluno(aluno* primeiro, int ra){
+    aluno* x = buscarAlunoPorRa(primeiro, ra);
+    if(!x)
+    {
+        printf("Não existe aluno com este RA.");
+        return;
+    }
+    aluno* anterior = x->ptrAnteriorAluno;
+    aluno* proximo = x->ptrProximoAluno;
+    anterior->ptrProximoAluno = proximo;
+    proximo->ptrAnteriorAluno = anterior;
+    
+    deletarTodasDisciplinasCursadas(x->ptrPrimeiraDisciplina);
+    
+    free(x);
+    
+}
+
+
+
 double calculoMedia(aluno a1, int codigoDisciplina){
     disciplinaCursada* ptrDisciplina = a1.ptrPrimeiraDisciplina;
     if(ptrDisciplina == NULL){

@@ -7,10 +7,7 @@
 
 int linhaEmBranco(const char* l){ return l[strspn(l, " \t\r\n")] == '\0'; }
 
-aluno* buscarAlunoPorRa(aluno* x, int ra){
-    while(x && x->ra != ra) x = x->ptrProximoAluno;
-    return x;
-}
+
 
 disciplina* buscarDisciplinaPorCodigo(disciplina* x, int codigo){
     while(x && x->codigo != codigo) x = x->ptrProximaDisciplina;

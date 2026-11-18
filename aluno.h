@@ -1,20 +1,20 @@
 #ifndef ALUNO
 #define ALUNO
-typedef struct disciplinaCursada{
-    int codigo;
-    double nota[2];
-    struct disciplinaCursada* ptrProximaDisciplina;
-    struct disciplinaCursada* ptrAnteriorDisciplina;
-}  disciplinaCursada;
+#include "disciplinaCursada.h"
+
 typedef struct aluno{
-    disciplinaCursada disciplinasCursadas;
     disciplinaCursada* ptrPrimeiraDisciplina;
+    int primeiraDisciplinaCursadaCriada;
     struct aluno* ptrAnteriorAluno;
     struct aluno* ptrProximoAluno;
 
     int ra;
 } aluno;
+
+aluno* buscarAlunoPorRa(aluno* x, int ra);
 void inserirAluno(aluno* primeiroAluno, aluno* novoAluno);
+void deletarAluno(aluno* primeiroLista, int ra);
+void editarAluno(aluno* primeiroLista, int ra, aluno novoAluno);
 double calculoMedia(aluno aluno, int codigoDisciplina);
 int determinarAprovacao(aluno aluno, int codigoDisciplina);
 #endif
