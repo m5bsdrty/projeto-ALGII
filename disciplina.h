@@ -1,21 +1,16 @@
 #ifndef DISCIPLINA
 #define DISCIPLINA
 #include "dependencias.h"
-
-
-typedef struct codigoPrerequisitos{
-    int codigo;
-    struct codigoPrerequisitos* ptrAnteriorCodigoPrerequisitos;
-    struct codigoPrerequisitos* ptrProximoCodigoPrerequisitos;
-} codigoPrerequisitos;
+#include "codigoPrerequisitos.h"
 typedef struct disciplina{
+    int primeiroPreRequisitoCriado;
     int codigo;
     codigoPrerequisitos* primeiroCodigoPrerequisitos;
     struct disciplina* ptrAnteriorDisciplina;
     struct disciplina* ptrProximaDisciplina;
 } disciplina;
+disciplina* buscarDisciplinaPorCodigo(disciplina* x, int codigo);
 int inserirDisciplina(disciplina* primeiraDisciplina, disciplina* novaDisciplina);
-void adicionarPrerequisitos(disciplina* disciplina, int codigoPrerequisito);
-
+void deletarDisciplina(disciplina* primeiro, int ra);
 
 #endif

@@ -1,16 +1,16 @@
 #include "dependencias.h"
-
-typedef struct codigoPrerequisitos{
-    int codigo;
-    struct codigoPrerequisitos* ptrAnteriorCodigoPrerequisitos;
-    struct codigoPrerequisitos* ptrProximoCodigoPrerequisitos;
-} codigoPrerequisitos;
+#include "codigoPrerequisitos.h"
 typedef struct disciplina{
+    int primeiroPreRequisitoCriado;
     int codigo;
     codigoPrerequisitos* primeiroCodigoPrerequisitos;
     struct disciplina* ptrAnteriorDisciplina;
     struct disciplina* ptrProximaDisciplina;
 } disciplina;
+disciplina* buscarDisciplinaPorCodigo(disciplina* x, int codigo){
+    while(x && x->codigo != codigo) x = x->ptrProximaDisciplina;
+    return x;
+}
 int inserirDisciplina(disciplina* primeiraDisciplina, disciplina* novaDisciplina) {
     disciplina* x = primeiraDisciplina;
     while(x->ptrProximaDisciplina){
@@ -20,18 +20,22 @@ int inserirDisciplina(disciplina* primeiraDisciplina, disciplina* novaDisciplina
     novaDisciplina->ptrAnteriorDisciplina = x;
     return 0;
 }
-int adicionarPrerequisitos(disciplina* disciplina, int codigoPrerequisito){
-    codigoPrerequisitos* x;
-    x = disciplina->primeiroCodigoPrerequisitos;
-    if(x->codigo == -1){
-        x->codigo = codigoPrerequisito;
-    }
-    else{
-            while(!x->ptrProximoCodigoPrerequisitos)
-                x = x->ptrProximoCodigoPrerequisitos;
-            x->ptrProximoCodigoPrerequisitos = malloc(sizeof(codigoPrerequisitos));
-            x = x->ptrProximoCodigoPrerequisitos;
-            x->codigo = codigoPrerequisito;
-    }
 
+void deletarDisciplina(disciplina* primeiro, int ra){
+    disciplina* x = buscarDisciplinaPorCodigo(primeiro, ra);
+    if(!x)
+    {
+        printf("Não existe disciplina com este RA.");
+        return;
+    }
+    disciplina* anterior = x->ptrAnteriorDisciplina;
+    disciplina* proximo = x->ptrProximaDisciplina;
+    anterior->ptrProximaDisciplina = proximo;
+    proximo->ptrAnteriorDisciplina = anterior;
+    
+    deletarTodosPreRequisitos(x->primeiroCodigoPrerequisitos);
+    
+    free(x);
+    
 }
+

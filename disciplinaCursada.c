@@ -28,3 +28,11 @@ void deletarTodasDisciplinasCursadas(disciplinaCursada* ptrPrimeiraDisciplina){
     }
     free(x);
 }
+
+void deletarDisciplinaEspecifica(disciplinaCursada* ptrDisciplina){
+    disciplinaCursada* anterior = ptrDisciplina->ptrAnteriorDisciplina;
+    disciplinaCursada* proxima = ptrDisciplina->ptrProximaDisciplina;
+    anterior->ptrProximaDisciplina = proxima;
+    proxima->ptrAnteriorDisciplina = anterior;
+    free(ptrDisciplina);
+}

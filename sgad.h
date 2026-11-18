@@ -11,5 +11,5 @@ void gerarListaAlunos(aluno* primeiroAluno);
 int carregarListaAlunos(aluno** primeiroAluno);
 int carregarListaDisciplinas(disciplina** primeiraDisciplina);
 
-void gerarListaDisciplinas(disciplina primeiraDisciplina);
+void gerarListaDisciplinas(disciplina* primeiraDisciplina);
 #endif

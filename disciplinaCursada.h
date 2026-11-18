@@ -11,6 +11,7 @@ disciplinaCursada* buscarDisciplinaCursadaPorCodigo(disciplinaCursada* x, int co
 
 void inserirDisciplinaCursada(disciplinaCursada* primeiro, disciplinaCursada* novo);
 void deletarTodasDisciplinasCursadas(disciplinaCursada* ptrPrimeiraDisciplina);
+void deletarDisciplinaEspecifica(disciplinaCursada* ptrDisciplina);
 
 
 

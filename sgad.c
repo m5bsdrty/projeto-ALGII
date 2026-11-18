@@ -9,10 +9,7 @@ int linhaEmBranco(const char* l){ return l[strspn(l, " \t\r\n")] == '\0'; }
 
 
 
-disciplina* buscarDisciplinaPorCodigo(disciplina* x, int codigo){
-    while(x && x->codigo != codigo) x = x->ptrProximaDisciplina;
-    return x;
-}
+
 
 int imprimirAluno(aluno a1, int ra, FILE *fptr){
     fprintf(fptr, "RA:%d\n", ra);
