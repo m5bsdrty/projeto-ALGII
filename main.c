@@ -35,7 +35,7 @@ void main(){
     aluno* alunoUsado;
     disciplinaCursada* disciplinaEditada;
     disciplina* disciplinaUsada;
-
+    codigoPrerequisitos* novoPreRequisito;
     while(leitura != 0){
         printf("Sistema gerenciador de alunos e disciplinas\n");
         printf("\nEscolha:\n1:Adicionar alunos\n2:Editar disciplinas de aluno\n3:Deletar aluno e suas disciplinas cursadas\n4:Adicionar disciplinas\n5: Deletar disciplinas\n6:Editar disciplinas pre-requisito\n7:Gerar arquivo com todos os alunos\n8:Gerar arquivo com todas as disciplinas\n9:Gerar boletim individual de aluno\n10:Carregar alunos e disciplinas dos arquivos\n11: Determinar media de aluno em certa disciplina\n12:Determinar aprovacao de aluno em todas as materias\n0:Sair do programa\n");
@@ -245,8 +245,21 @@ void main(){
                     if(lerInteiro(&ra) != 1)
                         printf("Aviso: codigo invalido.\n");
                     else{
-                        codigoPrerequisitos* novoPreRequisito = calloc(1,sizeof(codigoPrerequisitos));
-                        inserirPreRequisito(novaDisciplina->primeiroCodigoPrerequisitos,novoPreRequisito);
+                        if(ra == -1)
+                            break;
+                        if(buscarPreRequisitoPorCodigo(novaDisciplina->primeiroCodigoPrerequisitos,ra))
+                        {
+                            printf("Esta disciplina ja foi adicionada\n");
+                            continue;
+                        }
+                        novoPreRequisito = calloc(1,sizeof(codigoPrerequisitos));
+                        novoPreRequisito->codigo = ra;
+                        if(!novaDisciplina->primeiroPreRequisitoCriado){
+                            novaDisciplina->primeiroPreRequisitoCriado = 1;
+                            novaDisciplina->primeiroCodigoPrerequisitos = novoPreRequisito;
+                        }
+                        else
+                            inserirPreRequisito(novaDisciplina->primeiroCodigoPrerequisitos,novoPreRequisito);
 
                     }
                 }while(ra != -1);
@@ -258,6 +271,8 @@ void main(){
                     printf("Aviso: codigo invalido.\n");
                     break;
                 }
+                if(!primeiraDisciplina->ptrProximaDisciplina)
+                    primeiraDisciplinaCriada = 1;
                 deletarDisciplina(primeiraDisciplina,ra);
                 break;
                 
@@ -311,7 +326,7 @@ void main(){
                             printf("Esta disciplina nao existe");
                             break;
                         }
-                        printf("Digite o codigo da disciplina\n");
+                        printf("Digite o codigo da disciplina pre requisito\n");
                         if(lerInteiro(&ra) != 1){
                             printf("Valor inserido invalido");
                             break;
