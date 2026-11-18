@@ -22,9 +22,9 @@ void inserirDisciplinaCursada(disciplinaCursada* primeiro, disciplinaCursada* no
 }
 void deletarTodasDisciplinasCursadas(disciplinaCursada* ptrPrimeiraDisciplina){
     disciplinaCursada* x = ptrPrimeiraDisciplina->ptrProximaDisciplina;
-    do{
+    while(x->ptrProximaDisciplina){
         free(x->ptrAnteriorDisciplina);
         x = x->ptrProximaDisciplina;
-    }while(x->ptrProximaDisciplina);
+    }
     free(x);
 }
