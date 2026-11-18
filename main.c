@@ -92,7 +92,7 @@ void main(){
                                     novoAluno->ptrPrimeiraDisciplina = novaDisciplinaCursada;
                                     novoAluno->primeiraDisciplinaCursadaCriada = 1;
                                 }else{
-                                    inserirDisciplinaCursada(primeiroAluno->ptrPrimeiraDisciplina, novaDisciplinaCursada);
+                                    inserirDisciplinaCursada(novoAluno->ptrPrimeiraDisciplina, novaDisciplinaCursada);
                                 }
                                 printf("\nAdicionar mais disciplinas para este aluno \n1 Sim\n0 Nao\n");
                             }
@@ -151,9 +151,8 @@ void main(){
                                     alunoUsado->ptrPrimeiraDisciplina = novaDisciplinaCursada;
                                     alunoUsado->primeiraDisciplinaCursadaCriada = 1;
                                 }else{
-                                    inserirDisciplinaCursada(primeiroAluno->ptrPrimeiraDisciplina, novaDisciplinaCursada);
+                                    inserirDisciplinaCursada(alunoUsado->ptrPrimeiraDisciplina, novaDisciplinaCursada);
                                 }
-                            inserirDisciplinaCursada(alunoUsado->ptrPrimeiraDisciplina, novaDisciplinaCursada);
                         break;
                     case 2:
                             printf("Digite o RA do aluno\n");
