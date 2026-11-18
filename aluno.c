@@ -69,3 +69,16 @@ int determinarAprovacao(aluno aluno, int codigoDisciplina){
     else
         return 0;
 }
+
+int determinarAprovacaoTotal(disciplinaCursada* disciplina){
+    printf("\nDisciplina:%d\n",disciplina->codigo);
+    int aprovacao = (disciplina->nota[0]+disciplina->nota[1])/2.0 >= 6;
+    if(aprovacao)
+        printf("Aprovado");
+    else
+        printf("Reprovado");
+    if(!disciplina->ptrProximaDisciplina)
+        return aprovacao;
+    else 
+        return aprovacao + determinarAprovacaoTotal(disciplina->ptrProximaDisciplina);
+}

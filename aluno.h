@@ -17,4 +17,5 @@ void deletarAluno(aluno* primeiroLista, int ra);
 void editarAluno(aluno* primeiroLista, int ra, aluno novoAluno);
 double calculoMedia(aluno aluno, int codigoDisciplina);
 int determinarAprovacao(aluno aluno, int codigoDisciplina);
+int determinarAprovacaoTotal(disciplinaCursada* disciplina);
 #endif

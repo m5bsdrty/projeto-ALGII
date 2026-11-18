@@ -38,7 +38,7 @@ void main(){
 
     while(leitura != 0){
         printf("Sistema gerenciador de alunos e disciplinas\n");
-        printf("\nEscolha:\n1:Adicionar alunos\n2:Editar disciplinas de aluno\n3:Deletar aluno e suas disciplinas cursadas\n4:Adicionar disciplinas\n5: Deletar disciplinas\n6:Editar disciplinas pre-requisito\n7:Gerar arquivo com todos os alunos\n8:Gerar arquivo com todas as disciplinas\n9:Gerar boletim individual de aluno\n10:Carregar alunos e disciplinas dos arquivos\n0:Sair do programa\n");
+        printf("\nEscolha:\n1:Adicionar alunos\n2:Editar disciplinas de aluno\n3:Deletar aluno e suas disciplinas cursadas\n4:Adicionar disciplinas\n5: Deletar disciplinas\n6:Editar disciplinas pre-requisito\n7:Gerar arquivo com todos os alunos\n8:Gerar arquivo com todas as disciplinas\n9:Gerar boletim individual de aluno\n10:Carregar alunos e disciplinas dos arquivos\n11: Determinar media de aluno em certa disciplina\n12:Determinar aprovacao de aluno em todas as materias\n0:Sair do programa\n");
         leitura = lerInteiro(&opcao);
         if(leitura == -1){ printf("Aviso: entrada encerrada inesperadamente. Saindo do programa.\n"); return; }
         if(leitura == 0){ printf("Aviso: entrada invalida, digite apenas numeros.\n"); continue; }
@@ -366,6 +366,42 @@ void main(){
                     printf("%d aluno(s) carregado(s).\n", qtdAlunos);
                 if(qtdDisciplinas > 0)
                     printf("%d disciplina(s) carregada(s).\n", qtdDisciplinas);
+                break;
+            case 11:
+                printf("Digite o RA do aluno\n");
+                if(lerInteiro(&opcao) != 1){
+                    printf("\nValor invalido inserido");
+                    break;
+                }
+                alunoUsado = buscarAlunoPorRa(primeiroAluno,opcao);
+                if(!alunoUsado){
+                    printf("Aluno nao existe");
+                    break;
+                }
+                printf("Digite o codigo da disciplina\n");
+                if(lerInteiro(&opcao) != 1){
+                    printf("\nValor invalido inserido");
+                    break;
+                }
+                if(determinarAprovacao(*alunoUsado,opcao))
+                    printf("aprovado");
+                else
+                    printf("reprovado");                
+                
+                break;
+            case 12:
+                printf("Digite o RA do aluno\n");
+                if(lerInteiro(&opcao) != 1){
+                    printf("\nValor invalido inserido");
+                    break;
+                }
+                alunoUsado = buscarAlunoPorRa(primeiroAluno,opcao);
+                if(!alunoUsado){
+                    printf("Aluno nao existe");
+                    break;
+                }
+                int total = determinarAprovacaoTotal(alunoUsado->ptrPrimeiraDisciplina);
+                printf("\n Total de disciplinas em que o aluno foi aprovado:%d",total);
                 break;
         }
     }
