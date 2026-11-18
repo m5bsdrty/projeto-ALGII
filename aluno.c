@@ -24,18 +24,24 @@ void inserirAluno(aluno* primeiroAluno, aluno* novoAluno) {
 }
 double calculoMedia(aluno a1, int codigoDisciplina){
     disciplinaCursada* ptrDisciplina = a1.ptrPrimeiraDisciplina;
-    int x = ptrDisciplina->codigo;
-    do{
-        if(x == codigoDisciplina)
-            break;
-        
+    if(ptrDisciplina == NULL){
+        printf("Aviso: o aluno de RA %d nao cursou nenhuma disciplina.\n", a1.ra);
+        return -1;
+    }
+    while(ptrDisciplina != NULL && ptrDisciplina->codigo != codigoDisciplina)
         ptrDisciplina = ptrDisciplina->ptrProximaDisciplina;
-    }while(ptrDisciplina != NULL);
-    if(ptrDisciplina == NULL);//TO DO:adicionar condicao caso disciplina nao seja cursada pelo aluno
+    if(ptrDisciplina == NULL){
+        printf("Aviso: o aluno de RA %d nao cursou a disciplina %d.\n", a1.ra, codigoDisciplina);
+        return -1;
+    }
     return (ptrDisciplina->nota[0] + ptrDisciplina->nota[1])/2; /* */
 }
+/* Retorna 1 se aprovado, 0 se reprovado e -1 se a media nao pode ser calculada. */
 int determinarAprovacao(aluno aluno, int codigoDisciplina){
-    if(calculoMedia(aluno,codigoDisciplina) >= 6)
+    double media = calculoMedia(aluno,codigoDisciplina);
+    if(media < 0)
+        return -1;
+    if(media >= 6)
         return 1;
     else
         return 0;
